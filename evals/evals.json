@@ -1,0 +1,29 @@
+{
+  "skill_name": "aparser",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Напиши JS парсер для A-Parser, который принимает URL страницы, делает GET запрос и возвращает: title страницы, все ссылки (href + текст ссылки), и мета-описание (meta description). Используй TypeScript и API v2.",
+      "expected_output": "Полный TypeScript код парсера, наследующего BaseParser. Должен содержать: static defaultConf с results (flat: title, description; arrays: links с col link и anchor), static editableConf, async parse() который делает this.request GET, парсит title через regex, description через regex, ссылки через regex или getAllBlocks, устанавливает results.success = 1. Должен использовать check_content и decode: 'auto-html'.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Сделай парсер для A-Parser, который логинится на сайт через POST форму (логин/пароль задаются в editableConf), сохраняет сессию, и потом для каждого запроса (URL) авторизованно скачивает страницу и возвращает её заголовок H1. Используй sessionManager.",
+      "expected_output": "TypeScript парсер с: editableConf для login/password полей, async init() с this.sessionManager.init(), async parse() который вызывает sessionManager.get(), если нет сессии — делает POST логин, после успешного запроса вызывает sessionManager.save(), при ошибке — sessionManager.reset(). Должен извлекать H1 из HTML.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "Напиши парсер для A-Parser на TypeScript, который делает скриншоты сайтов через Puppeteer. Скриншот должен сохраняться как результат. Парсер должен поддерживать proxy, многопоточность (одна вкладка на поток), настройку ширины/высоты viewport через интерфейс.",
+      "expected_output": "TypeScript парсер с puppeteer интеграцией: глобальная переменная browser, async init() вызывает this.puppeteer.launch(), async destroy() закрывает браузер, async threadInit() создаёт страницу и вызывает this.puppeteer.setPageUseProxy(page), async parse() делает page.goto() и page.screenshot(), вызывает closeActiveConnections(). editableConf для width/height/headless.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "prompt": "Как в A-Parser JS парсере вызвать встроенный парсер SE::Google и получить из него список ссылок (SERP) для моего запроса? Нужен полный пример кода.",
+      "expected_output": "Пример с this.parser.request('SE::Google', 'default', { resultArraysWithObjects: 1, pagecount: 1 }, set.query), обработка response.serp как массива объектов {link, anchor}, заполнение results. Должен объяснить параметры overrideParams.",
+      "files": []
+    }
+  ]
+}
